@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container my-3">
+    <!-- 질문 -->
+    <h2 class="border-bottom py-2 bg-success p-3">{{ product.pcode }}</h2>
+
+    <div class="card my-3">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-12 col-sm-6">
+
+                {% if product.imgfile == '' or product.imgfile == null %}
+                        None
+                        {% else %}
+                         <div class="col-12">
+                        <img src="{{ product.imgfile.url }}" class="product-image" alt="Product Image">
+                        </div>
+
+                        {% endif %}
+
+                </div>
+                <div class="col-12 col-sm-6">
+                       <div id="text1">
+                {{ product.pname}}
+                </div>
+                <div class="bg-success py-2 px-3 mt-4">
+                <h2 class="mb-0">
+                  {{ product.unitprice}}원
+                </h2>
+                <h4 class="mt-0">
+                  <small>  {{ product.discountrate}}% </small>
+                </h4>
+                </div>
+                <div class="mt-4">
+                <div class="user-block">
+                        <img class="img-circle img-bordered-sm" src="/static/img/avatar2.png" alt="user image">
+                        <span class="username">
+                          <a href="#"> {{ product.author.username}}</a>
+                        </span>
+                    <!--    <span class="description">Shared publicly - 7:45 PM today</span> -->
+                      </div>
+              </div>
+
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+        {% if request.user == product.author %}
+        <div class="my-3">
+            <a href="{% url 'sales:product_modify' product.id  %}"
+               class="btn btn-sm3 btn-outline-success">수정</a>
+
+            <a href="#" class="delete btn btn-sm3 btn-outline-danger"
+                data-uri="{% url 'sales:product_delete' product.id  %}">삭제</a>
+        </div>
+        {% endif %}
+</div>
+
+{% endblock %}
+
+{% block script %}
+<script type='text/javascript'>
+$(document).ready(function(){
+    $(".delete").on('click', function() {
+        if(confirm("정말로 삭제하시겠습니까?")) {
+            location.href = $(this).data('uri');
+        }
+    });
+});
+</script>
+{% endblock %}
+
+

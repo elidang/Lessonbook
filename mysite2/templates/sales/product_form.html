@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="container">
+  <h5 class="my-3 border-bottom bg-success p-3">레슨용 교재등록</h5>
+  <form method="post" class="post-form my-3" enctype="multipart/form-data"> <!---->
+     {% csrf_token %}
+     <!--오류 표시 Start-->
+     {% if form.errors %}
+     <div class="alert alert-danger" role="alert">
+       {% for field in form %}
+         {% if field.errors %}
+         <strong>{{ field.label }}</strong>
+         {{ field.errors }}
+         {% endif %}
+      {% endfor %}
+    </div>
+    {% endif %}
+    <!--오류 표시 End -->
+
+    <div class="form-inline mt-3">
+      <label for="pcode" class="col-sm-2 col-form-label" >교재코드</label>
+      <input type="text" class="form-control col-sm-7" name="pcode" id="pcode"
+             value="{{ form.pcode.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-inline mt-3">
+      <label for="pname" class="col-sm-2 col-form-label">교재명</label>
+      <input type="text" class="form-control col-sm-7" name="pname" id="pname"
+             value="{{ form.pname.value|default_if_none:'' }}">
+    </div>
+
+    <div class="form-inline mt-3">
+      <label for="unitprice" class="col-sm-2 col-form-label">단가</label>
+      <input type="text" class="form-control col-sm-7" name="unitprice" id="unitprice"
+             value="{{ form.unitprice.value|default_if_none:'' }}">
+    </div>
+    <div class="form-inline mt-3">
+      <label for="discountrate" class="col-sm-2 col-form-label">할인율</label>
+      <input type="text" class="form-control col-sm-7" name="discountrate" id="discountrate"
+             value="{{ form.discountrate.value|default_if_none:'' }}">
+    </div>
+    <div class="form-inline mt-3">
+      <label for="imgfile" class="col-sm-2 col-form-label">이미지</label>
+      <input class="form-control col-sm-7" type="file" name="imgfile" id="imgfile">
+    </div>
+
+    <button type="submit" class="btn btn-outline-success mt-4  button-width">저장하기</button>
+    <a href="{% url 'sales:index' %}" class="btn btn-outline-danger mt-4  button-width">취소하기</a>
+  </form>
+</div>
+{% endblock %}
